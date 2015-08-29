@@ -1,0 +1,251 @@
+-- MySQL dump 10.13  Distrib 5.1.37, for Win32 (ia32)
+--
+-- Host: localhost    Database: db_salesapp
+-- ------------------------------------------------------
+-- Server version	5.1.37-community
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `t_barang`
+--
+
+DROP TABLE IF EXISTS `t_barang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_barang` (
+  `kode_barang` varchar(15) NOT NULL DEFAULT '',
+  `nama_barang` varchar(200) NOT NULL,
+  `kode_jenis` varchar(15) NOT NULL,
+  `stok` int(11) NOT NULL,
+  `harga_beli` decimal(19,2) DEFAULT NULL,
+  `harga_jual` decimal(19,2) DEFAULT NULL,
+  PRIMARY KEY (`kode_barang`),
+  KEY `kode_jenis` (`kode_jenis`),
+  CONSTRAINT `t_barang_ibfk_1` FOREIGN KEY (`kode_jenis`) REFERENCES `t_jenis` (`kode_jenis`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_barang`
+--
+
+LOCK TABLES `t_barang` WRITE;
+/*!40000 ALTER TABLE `t_barang` DISABLE KEYS */;
+INSERT INTO `t_barang` VALUES ('a','buyatak','j001',0,'20000.00','50000.00'),('B001','Lea','j001',30,'250000.00','300000.00'),('B002','347','j001',50,'4500000.00','500000.00'),('B003','Ouval','j002',4,'200000.00','300000.00'),('B004','sapi','j001',0,'150000.00','20000.00'),('B005','Sapiola','j001',30,'100000.00','125000.00'),('B100','Budug','j001',20,'1000000.00','1500000.00'),('f','asdasf','j001',40,'120000.00','150000.00'),('g','asdasf','j001',40,'120000.00','150000.00'),('h','asdasf','j001',40,'120000.00','150000.00'),('i','asdasf','j001',40,'120000.00','150000.00'),('j','asdasf','j001',40,'120000.00','150000.00'),('k','asdasf','j001',40,'120000.00','150000.00'),('l','asdasf','j001',40,'120000.00','150000.00'),('m','babilonia','j001',40,'120000.00','150000.00'),('z','japan','j001',40,'120000.00','150000.00');
+/*!40000 ALTER TABLE `t_barang` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_distributor`
+--
+
+DROP TABLE IF EXISTS `t_distributor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_distributor` (
+  `id_distributor` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_distributor` varchar(100) NOT NULL,
+  `alamat` varchar(200) NOT NULL,
+  `kota_asal` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `no_telpon` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id_distributor`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_distributor`
+--
+
+LOCK TABLES `t_distributor` WRITE;
+/*!40000 ALTER TABLE `t_distributor` DISABLE KEYS */;
+INSERT INTO `t_distributor` VALUES (1,'Acep','Bandung	','Bandung','acepabdurohman90@gmail.com','083822771927'),(2,'asda','asdsa','asdasdasd','','');
+/*!40000 ALTER TABLE `t_distributor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_jenis`
+--
+
+DROP TABLE IF EXISTS `t_jenis`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_jenis` (
+  `kode_jenis` varchar(15) NOT NULL DEFAULT '',
+  `jenis` varchar(200) NOT NULL,
+  PRIMARY KEY (`kode_jenis`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_jenis`
+--
+
+LOCK TABLES `t_jenis` WRITE;
+/*!40000 ALTER TABLE `t_jenis` DISABLE KEYS */;
+INSERT INTO `t_jenis` VALUES ('A123','Kaos'),('j001','Jaket'),('j002','Celana'),('j003','Sweeter');
+/*!40000 ALTER TABLE `t_jenis` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_pembelian`
+--
+
+DROP TABLE IF EXISTS `t_pembelian`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_pembelian` (
+  `id_pembelian` int(11) NOT NULL AUTO_INCREMENT,
+  `id_distributor` int(11) DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `total` decimal(19,2) DEFAULT NULL,
+  PRIMARY KEY (`id_pembelian`),
+  KEY `id_distributor` (`id_distributor`),
+  CONSTRAINT `t_pembelian_ibfk_1` FOREIGN KEY (`id_distributor`) REFERENCES `t_distributor` (`id_distributor`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_pembelian`
+--
+
+LOCK TABLES `t_pembelian` WRITE;
+/*!40000 ALTER TABLE `t_pembelian` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_pembelian` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_pembelian_detail`
+--
+
+DROP TABLE IF EXISTS `t_pembelian_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_pembelian_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_pembelian` int(11) DEFAULT NULL,
+  `kode_barang` varchar(15) DEFAULT NULL,
+  `jumlah` int(11) DEFAULT NULL,
+  `harga` decimal(19,2) DEFAULT NULL,
+  `subtotal` decimal(19,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_pembelian` (`id_pembelian`),
+  KEY `kode_barang` (`kode_barang`),
+  CONSTRAINT `t_pembelian_detail_ibfk_1` FOREIGN KEY (`id_pembelian`) REFERENCES `t_pembelian` (`id_pembelian`),
+  CONSTRAINT `t_pembelian_detail_ibfk_2` FOREIGN KEY (`kode_barang`) REFERENCES `t_barang` (`kode_barang`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_pembelian_detail`
+--
+
+LOCK TABLES `t_pembelian_detail` WRITE;
+/*!40000 ALTER TABLE `t_pembelian_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_pembelian_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_penjualan`
+--
+
+DROP TABLE IF EXISTS `t_penjualan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_penjualan` (
+  `id_penjualan` int(11) NOT NULL AUTO_INCREMENT,
+  `tanggal` date DEFAULT NULL,
+  `total` decimal(19,2) DEFAULT NULL,
+  PRIMARY KEY (`id_penjualan`)
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_penjualan`
+--
+
+LOCK TABLES `t_penjualan` WRITE;
+/*!40000 ALTER TABLE `t_penjualan` DISABLE KEYS */;
+INSERT INTO `t_penjualan` VALUES (61,'2015-07-19','2000000.00'),(62,'2015-07-19','300000.00'),(63,'2015-07-19','1625000.00'),(64,'2015-07-24','300000.00'),(65,'2015-07-24','800000.00'),(66,'2015-08-03','2000000.00'),(67,'2015-08-03','900000.00'),(68,'2015-08-03','1300000.00'),(69,'2015-08-03','2000000.00'),(70,'2015-08-03','20000.00'),(71,'2015-08-03','520000.00'),(72,'2015-08-03','300000.00'),(73,'2015-08-03','1625000.00'),(74,'2015-08-03','125000.00'),(75,'2015-08-03','125000.00'),(76,'2015-08-03','1500000.00'),(77,'2015-08-03','3000000.00'),(78,'2015-08-03','2100000.00'),(79,'2015-08-03','2000000.00');
+/*!40000 ALTER TABLE `t_penjualan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_penjualan_detail`
+--
+
+DROP TABLE IF EXISTS `t_penjualan_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_penjualan_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_penjualan` int(11) DEFAULT NULL,
+  `kode_barang` varchar(15) DEFAULT NULL,
+  `jumlah` int(11) NOT NULL,
+  `harga` decimal(19,2) NOT NULL,
+  `subtotal` decimal(19,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_penjualan` (`id_penjualan`),
+  KEY `kode_barang` (`kode_barang`),
+  CONSTRAINT `t_penjualan_detail_ibfk_1` FOREIGN KEY (`id_penjualan`) REFERENCES `t_penjualan` (`id_penjualan`),
+  CONSTRAINT `t_penjualan_detail_ibfk_2` FOREIGN KEY (`kode_barang`) REFERENCES `t_barang` (`kode_barang`)
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_penjualan_detail`
+--
+
+LOCK TABLES `t_penjualan_detail` WRITE;
+/*!40000 ALTER TABLE `t_penjualan_detail` DISABLE KEYS */;
+INSERT INTO `t_penjualan_detail` VALUES (103,61,'B004',1,'20000.00','20000.00'),(104,61,'B002',1,'500000.00','500000.00'),(105,61,'B100',1,'1500000.00','1500000.00'),(106,62,'B005',1,'125000.00','125000.00'),(107,62,'f',1,'150000.00','150000.00'),(108,62,'B003',1,'300000.00','300000.00'),(109,63,'B005',1,'125000.00','125000.00'),(110,63,'B100',1,'1500000.00','1500000.00'),(111,64,'B001',1,'300000.00','300000.00'),(112,65,'B001',1,'300000.00','300000.00'),(113,65,'B002',1,'500000.00','500000.00'),(114,66,'B002',1,'500000.00','500000.00'),(115,66,'B100',1,'1500000.00','1500000.00'),(116,67,'B001',2,'300000.00','600000.00'),(117,67,'B003',1,'300000.00','300000.00'),(118,68,'B001',1,'300000.00','300000.00'),(119,68,'B002',2,'500000.00','1000000.00'),(120,69,'B100',1,'1500000.00','1500000.00'),(121,69,'B002',1,'500000.00','500000.00'),(122,70,'B004',1,'20000.00','20000.00'),(123,71,'B004',1,'20000.00','20000.00'),(124,71,'B002',1,'500000.00','500000.00'),(125,72,'B003',1,'300000.00','300000.00'),(126,73,'B100',1,'1500000.00','1500000.00'),(127,73,'B005',1,'125000.00','125000.00'),(128,74,'B005',1,'125000.00','125000.00'),(129,75,'B005',1,'125000.00','125000.00'),(130,76,'B100',1,'1500000.00','1500000.00'),(131,77,'B100',2,'1500000.00','3000000.00'),(132,78,'B003',2,'300000.00','600000.00'),(133,78,'B100',1,'1500000.00','1500000.00'),(134,79,'B002',1,'500000.00','500000.00'),(135,79,'B100',1,'1500000.00','1500000.00');
+/*!40000 ALTER TABLE `t_penjualan_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_user`
+--
+
+DROP TABLE IF EXISTS `t_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_user` (
+  `id_user` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `userpass` varchar(100) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_user`
+--
+
+LOCK TABLES `t_user` WRITE;
+/*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
+INSERT INTO `t_user` VALUES (1,'acep1234','acep1234','Acep Abdurohman');
+/*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2015-08-06  9:08:59
